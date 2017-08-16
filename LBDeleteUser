@@ -1,0 +1,32 @@
+#!/bin/bash
+clear
+# © RDY SOFTWARE | 2016 - 2017 All rights reserved
+
+if [ $(id -u) -eq 0 ]
+then
+#----------------------------------------------------------------------------------#
+
+read -p "" name
+ if [ $(cat /etc/passwd |grep "^$name:" |wc -l) -eq 0 ]; then
+clear
+histoey -c
+ echo "ERRO 04: Usuario $name nao existe!"
+ exit
+ fi
+ pids=$(ps -u $name |awk {'print $1'})
+ kill "$pids" >/dev/null 2>/dev/null
+ userdel $name 1>/dev/null 2>/dev/null
+clear
+history -c
+ echo "OK: $name";
+ exit
+fi
+#----------------------------------------------------------------------------------#
+
+else
+if echo $(id) |grep sudo > /dev/null
+then
+echo -e "ERRO (SU): Seu usuario esta no grupo sudo!";
+
+fi
+fi
