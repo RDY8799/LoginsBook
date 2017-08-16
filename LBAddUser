@@ -1,0 +1,114 @@
+#!/bin/bash
+clear
+
+# © RDY SOFTWARE | 2016 - 2017 All rights reserved
+
+if [ $(id -u) -eq 0 ]
+then
+#----------------------------------------------------------------------------------#
+
+if [ -e "/root/usuarios.db" ]
+then
+read -p "PH" username
+
+awk -F : ' { print $1 }' /etc/passwd > /tmp/users 
+if grep -Fxq "$username" /tmp/users
+then
+echo "ERRO 03 (PH): Usuario $user ja existe, crie outro usuario.";
+exit
+else
+read -p "PH" password
+
+read -p "PH" dias
+
+read -p "PH" sshlimiter
+
+final=$(date "+%Y-%m-%d" -d "+$dias days")
+pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
+useradd -M -s /bin/false $username -e $final
+		(echo $pass; echo $pass)|passwd $username 2>/dev/null
+
+history -c
+clear
+
+echo "OK: $username CRIADO!";
+echo "$username $sshlimiter" >> /root/usuarios.db
+exit
+fi
+#----------------------------------------------------------------------------------#
+else
+
+if [ -e "/usr/lib/klibc/bin/chooa" ]
+then
+
+read -p "RDY" user
+if cat /etc/passwd |grep $user: |grep -vi [a-z]$user |grep -v [0-9]$user > /dev/null
+	then
+clear
+echo "ERRO 03 (RDY): Usuario $user ja existe, crie outro usuario.";
+exit
+else
+read -p "RDY"  password
+read -p "RDY"  days
+read -p "RDY"  logins
+clear
+rdyw=$(date '+%C%y-%m-%d' -d " +$days days")
+rdyx=$(date "+%d/%m/%Y" -d "+ $days days")
+useradd -M -s /bin/false $user -e $rdyw
+		(echo $password; echo $password)|passwd $user 2>/dev/null
+limit $user $logins
+history -c
+clear
+
+echo "OK: $user CRIADO!";
+echo "$password" > /etc/tomada/senha/$user
+clear
+history -c
+exit
+fi
+#----------------------------------------------------------------------------------#
+
+else
+
+if [ -e "/etc/VpsPackdir/limite" ]
+then
+
+read -p "LE" user
+echo -e "\033[0m"
+
+if cat /etc/passwd |grep $user: |grep -vi [a-z]$user |grep -v [0-9]$user > /dev/null
+then
+clear
+echo "ERRO 03 (LE): Usuario $user ja existe, crie outro usuario.";
+exit
+else
+read -p "LE" password
+read -p "LE" days
+read -p "LE" logins
+clear
+rdyw=$(date '+%C%y-%m-%d' -d " +$days days")
+rdyx=$(date "+%d/%m/%Y" -d "+ $days days")
+useradd -M -s /bin/false $user -e $rdyw
+		(echo $password; echo $password)|passwd $user 2>/dev/null
+limite $user $logins
+history -c
+clear
+
+echo "OK: $user CRIADO!";
+echo "$password" > /etc/VpsPackdir/senha/$user
+clear
+history -c
+exit
+fi
+#----------------------------------------------------------------------------------#
+
+else
+if echo $(id) |grep sudo > /dev/null
+then
+echo -e "ERRO (SU): Seu usuario esta no grupo sudo!"
+
+fi
+fi
+fi
+fi
+fi
