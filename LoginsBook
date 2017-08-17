@@ -1,0 +1,89 @@
+#!/bin/bash
+clear
+# © RDY SOFTWARE | 2016 - 2017 All rights reserved
+
+cd
+if [ $(id -u) -eq 0 ]
+then
+        clear
+else
+        if echo $(id) |grep sudo > /dev/null
+        then
+        clear
+        echo "Você não é root"
+        echo "Seu usuário está no grupo sudo"
+        echo -e "Para virar root e fazer a instalação execute \033[1;31msudo su\033[0m"
+        exit
+        else
+        clear
+        echo -e "Você pecisa está como root para poder fazer a instalção. Para tornar-se root execute \033[1;31msu\033[0m e digite sua senha root"
+        exit
+        fi
+fi
+
+myip=$(wget -qO- ipv4.icanhazip.com)
+mysystem=$(cat /etc/so)
+
+echo "";
+echo -e "\033[1;36mScript for the correct operation of the Logins Book application.\nEnter to continue.\033[0m"; read -n 1 -s -p "";
+
+echo "";
+echo -e "\033[1;36mLet's do some installations on your server. We do not take responsibility for anything that happens wrong on your machine.\nEnter to continue\033[0m"; read -n 1 -s -p "";
+
+echo "";
+
+echo -e "\033[1;32mLoading...\033[0m"
+find / -name 'LBDelete*' -exec rm {} \; > /dev/null 2> /dev/null
+find / -name 'LBAdd*' -exec rm {} \; > /dev/null 2> /dev/null
+
+clear
+history -c
+
+echo -e "\033[1;32m© RDY SOFTWARE | 2017 - All rights reserved\033[0m"
+
+echo ""
+echo -e "\033[1;32mOperational system: \033[1;32m$mysystem \033[0m";
+echo "";
+echo -e "\033[1;32mIP/Host: \033[1;32m$myip \033[0m";
+echo "";
+echo -e "\033[1;36mInstalling script for \033[1;32mLogins Book\033[0m app...\033[0m";
+
+echo "";
+
+echo -e "\033[1;36mUpdating packages...\033[0m";
+apt-get update /dev/null 2> /dev/null
+
+echo ""
+
+echo -e "\033[1;32m Downloading files for \033[1;36mLogins Book\033[1;32m app...\033[0m";
+
+wget -P /bin/ https://raw.githubusercontent.com/RDY8799/LoginsBook/master/LBAddUser /dev/null 2> /dev/null
+
+history -c
+
+wget -P /bin/ https://raw.githubusercontent.com/RDY8799/LoginsBook/master/LBADeleteUser /dev/null 2> /dev/null
+
+history -c
+
+chmod 711 /bin/LBAddUse* /dev/null 2> /dev/null
+
+chmod 711 /bin/LBDeleteUse* /dev/null 2> /dev/null
+
+
+sleep 3
+
+echo -e "\033[1;32mFinishing...\033[0m";
+
+find / -name 'LoginsBoo*' -exec rm {} \; > /dev/null 2> /dev/null
+
+clear
+
+echo -e "\033[1;32m√ Sucefull!\nInstallation completed!\033[0m"
+
+echo "";
+
+echo -e "\033[1;36m© RDY SOFTWARE | 2016 - 2017 All rights reserved \033[0m";
+
+history -c
+
+exit
