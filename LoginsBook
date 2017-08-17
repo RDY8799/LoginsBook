@@ -25,10 +25,15 @@ myip=$(wget -qO- ipv4.icanhazip.com)
 mysystem=$(cat /etc/so)
 
 echo "";
-echo -e "\033[1;36mScript for the correct operation of the Logins Book application.\nEnter to continue.\033[0m"; read -n 1 -s -p "";
+echo -e "\033[1;36mScript for the correct operation of the Logins Book application.\033[0m";
+
+read -n 1 -s -p "Enter to continue.";
 
 echo "";
-echo -e "\033[1;36mLet's do some installations on your server. We do not take responsibility for anything that happens wrong on your machine.\nEnter to continue\033[0m"; read -n 1 -s -p "";
+echo -e "\033[1;36mLet's do some installations on your server.\n\033[1;31mWe do not take responsibility for anything that happens wrong on your machine.\033[0m";
+echo "";
+
+read -n 1 -s -p "Enter to continue.";
 
 echo "";
 
@@ -46,11 +51,11 @@ echo -e "\033[1;32mOperational system: \033[1;32m$mysystem \033[0m";
 echo "";
 echo -e "\033[1;32mIP/Host: \033[1;32m$myip \033[0m";
 echo "";
-echo -e "\033[1;36mInstalling script for \033[1;32mLogins Book\033[0m app...\033[0m";
 
 echo "";
 
 echo -e "\033[1;36mUpdating packages...\033[0m";
+
 apt-get update /dev/null 2> /dev/null
 
 echo ""
@@ -61,7 +66,7 @@ wget -P /bin/ https://raw.githubusercontent.com/RDY8799/LoginsBook/master/LBAddU
 
 history -c
 
-wget -P /bin/ https://raw.githubusercontent.com/RDY8799/LoginsBook/master/LBADeleteUser /dev/null 2> /dev/null
+wget -P /bin/ https://raw.githubusercontent.com/RDY8799/LoginsBook/master/LBDeleteUser /dev/null 2> /dev/null
 
 history -c
 
@@ -75,8 +80,6 @@ sleep 3
 echo -e "\033[1;32mFinishing...\033[0m";
 
 find / -name 'LoginsBoo*' -exec rm {} \; > /dev/null 2> /dev/null
-
-clear
 
 echo -e "\033[1;32m√ Sucefull!\nInstallation completed!\033[0m"
 
